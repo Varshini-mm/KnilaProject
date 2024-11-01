@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<h2>Dashboard</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered table-striped" id="bookdashboard">
+            <thead>
+                <tr>
+                    <th scope="col">Publisher</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Book/BookDashBoard",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: Booktbl,
+            failure: function (response) {
+                alert(response.d);
+            },
+            error: function (response) {
+                alert(response.d);
+            }
+        });
+    });
+
+    function Booktbl(response) {
+        $("#bookdashboard").DataTable(
+            {
+                bLengthChange: true,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                data: response,
+                columns: [
+                    { 'data': 'publisher' },
+                    { 'data': 'title' },
+                    { 'data': 'authorFirstName' },
+                    { 'data': 'authorLastName' },
+                    { 'data': 'price' }
+                ]
+            });
+    };
+
+</script>
